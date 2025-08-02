@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Store Service API
+  version: 1.0.0
+
+paths:
+  /products:
+    post:
+      summary: Create a new product
+      description: Creates a new product with price in EUR. Price in USD will be computed automatically.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreateDto'
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponseDto'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    ProductCreateDto:
+      type: object
+      required:
+        - code
+        - name
+        - priceEur
+      properties:
+        code:
+          type: string
+          minLength: 10
+          maxLength: 10
+          example: "ABC1234567"
+          description: Product code
+        name:
+          type: string
+          example: "Wireless Mouse"
+          description: Name of the product
+        priceEur:
+          type: number
+          format: decimal
+          minimum: 0
+          example: 29.99
+          description: Price in EUR
+        isAvailable:
+          type: boolean
+          default: true
+          example: true
+          description: Availability of the product
+
+    ProductResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        code:
+          type: string
+          example: "ABC1234567"
+        name:
+          type: string
+          example: "Wireless Mouse"
+        priceEur:
+          type: number
+          format: decimal
+          example: 29.99
+        priceUsd:
+          type: number
+          format: decimal
+          example: 32.50
+        isAvailable:
+          type: boolean
+          example: true
