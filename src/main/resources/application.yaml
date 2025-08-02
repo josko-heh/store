@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: store
+  main:
+    banner-mode: off
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+server:
+  port: 30000

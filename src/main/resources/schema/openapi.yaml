@@ -8,6 +8,7 @@ paths:
     post:
       summary: Create a new product
       description: Creates a new product with price in EUR. Price in USD will be computed automatically.
+      operationId: createProduct
       requestBody:
         required: true
         content:
