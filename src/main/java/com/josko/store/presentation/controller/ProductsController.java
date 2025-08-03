@@ -3,7 +3,6 @@ package com.josko.store.presentation.controller;
 import com.josko.store.presentation.dto.ProductCreateDto;
 import com.josko.store.presentation.dto.ProductResponseDto;
 import com.josko.store.service.ProductService;
-import com.josko.store.service.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductsController implements ProductsApi {
 	
 	private final ProductService service;
-	private final ProductMapper mapper;
 	
 	
 	@Override
@@ -35,7 +33,6 @@ public class ProductsController implements ProductsApi {
 	public ResponseEntity<ProductResponseDto> getProduct(Long id) {
 		
 		return service.getProduct(id)
-				.map(mapper::toResponseDto)
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	} 

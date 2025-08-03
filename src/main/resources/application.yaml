@@ -19,3 +19,7 @@ spring:
 
 server:
   port: 30000
+
+exchange:
+  hnb:
+    url: https://api.hnb.hr/tecajn-eur/v3?valuta=USD
