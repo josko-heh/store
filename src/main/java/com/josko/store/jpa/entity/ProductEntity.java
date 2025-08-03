@@ -27,9 +27,6 @@ public class ProductEntity {
 	@Column(name = "price_eur", nullable = false, precision = 10, scale = 2)
 	private BigDecimal priceEur;
 
-	@Column(name = "price_usd", nullable = false, precision = 10, scale = 2)
-	private BigDecimal priceUsd;
-
 	@Column(name = "is_available", nullable = false)
 	private Boolean isAvailable;
 }
