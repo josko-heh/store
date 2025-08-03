@@ -26,23 +26,23 @@ public class ProductsController implements ProductsApi {
 
 		logger.debug("Creating product {}", productCreateDto);
 		
-		var id = service.createProduct(productCreateDto);
+		var code = service.createProduct(productCreateDto);
 
 		var location = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(ProductsController.class)
-						.getProduct(id))
+						.getProduct(code))
 				.toUri();
 		
 		return ResponseEntity.created(location).build();
 	}
 	
 	@Override
-	public ResponseEntity<ProductResponseDto> getProduct(Long id) {
+	public ResponseEntity<ProductResponseDto> getProduct(String code) {
 		
-		logger.debug("Retrieving product {}", id);
+		logger.debug("Retrieving product {}", code);
 		
-		return service.getProduct(id)
+		return service.getProduct(code)
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build());
 	}

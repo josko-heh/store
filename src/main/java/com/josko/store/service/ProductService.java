@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface ProductService {
 
-	Long createProduct(ProductCreateDto dto);
+	String createProduct(ProductCreateDto dto);
 	
-	Optional<ProductResponseDto> getProduct(Long id);
+	Optional<ProductResponseDto> getProduct(String code);
 
 	ProductPageResponse getProducts(Pageable pageable);
 

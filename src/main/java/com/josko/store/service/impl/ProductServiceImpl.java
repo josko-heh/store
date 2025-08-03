@@ -22,17 +22,18 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
-	public Long createProduct(ProductCreateDto dto) {
+	public String createProduct(ProductCreateDto dto) {
 
 		var entity = mapper.toEntity(dto);
 		
-		return repository.save(entity).getId();
+		return repository.save(entity)
+				.getCode();
 	}
 
 	@Override
-	public Optional<ProductResponseDto> getProduct(Long id) {
+	public Optional<ProductResponseDto> getProduct(String code) {
 		
-		var productOpt = repository.findById(id);
+		var productOpt = repository.findByCode(code);
 		
 		if(productOpt.isEmpty()) {
 			return Optional.empty();
