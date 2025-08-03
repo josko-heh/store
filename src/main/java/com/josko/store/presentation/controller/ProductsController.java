@@ -50,7 +50,7 @@ public class ProductsController implements ProductsApi {
 	@Override
 	public ResponseEntity<ProductPageResponse> getProducts(Pageable pageable) {
 		
-		logger.debug("Retrieving products with pageable {}", pageable);
+		logger.debug("Retrieving products with {}", pageable);
 		
 		var products = service.getProducts(pageable);
 		

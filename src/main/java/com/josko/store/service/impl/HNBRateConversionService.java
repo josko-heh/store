@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josko.store.service.RateConversionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,13 +19,11 @@ public class HNBRateConversionService implements RateConversionService {
 
 	private static final Logger logger = LoggerFactory.getLogger(HNBRateConversionService.class);
 
-	private final RestTemplate restTemplate;
-	private final String hnbApiUrl;
 	private final ObjectMapper objectMapper;
+	private final HNBRatesFetchService fetchService;
 
-	public HNBRateConversionService(RestTemplate restTemplate, @Value("${exchange.hnb.url}") String hnbApiUrl) {
-		this.restTemplate = restTemplate;
-		this.hnbApiUrl = hnbApiUrl;
+	public HNBRateConversionService(HNBRatesFetchService fetchService) {
+		this.fetchService = fetchService;
 		this.objectMapper = new ObjectMapper();
 	}
 
@@ -35,10 +31,8 @@ public class HNBRateConversionService implements RateConversionService {
 	@Override
 	public Optional<BigDecimal> toUsd(BigDecimal eur) {
 		
-		logger.trace("Retrieving rate conversion.");
-		
-		String response = restTemplate.getForObject(hnbApiUrl, String.class);
-		
+		String response = fetchService.fetchRates();
+
 		JsonNode root;
 		 
 		try {
@@ -60,7 +54,7 @@ public class HNBRateConversionService implements RateConversionService {
 					.setScale(2, RoundingMode.HALF_UP));
 	}
 
-	
+
 	private static BigDecimal extractMidMarketRate(JsonNode root) {
 		
 		var midMarketRateStr = root.get(0)
