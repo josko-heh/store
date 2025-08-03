@@ -4,6 +4,8 @@ import com.josko.store.presentation.dto.ProductCreateDto;
 import com.josko.store.presentation.dto.ProductResponseDto;
 import com.josko.store.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class ProductsController implements ProductsApi {
+
+	private static final Logger logger = LoggerFactory.getLogger(ProductsController.class);
 	
 	private final ProductService service;
 	
@@ -18,6 +22,8 @@ public class ProductsController implements ProductsApi {
 	@Override
 	public ResponseEntity<Void> createProduct(ProductCreateDto productCreateDto) {
 
+		logger.debug("Creating product {}", productCreateDto);
+		
 		var id = service.createProduct(productCreateDto);
 
 		var location = WebMvcLinkBuilder
@@ -31,6 +37,8 @@ public class ProductsController implements ProductsApi {
 	
 	@Override
 	public ResponseEntity<ProductResponseDto> getProduct(Long id) {
+		
+		logger.debug("Retrieving product {}", id);
 		
 		return service.getProduct(id)
 				.map(ResponseEntity::ok)

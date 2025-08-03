@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.josko.store.service.RateConversionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class HNBRateConversionService implements RateConversionService {
 
 	private static final String MID_MARKET_RATE_FIELD = "srednji_tecaj";
+
+	private static final Logger logger = LoggerFactory.getLogger(HNBRateConversionService.class);
 
 	private final RestTemplate restTemplate;
 	private final String hnbApiUrl;
@@ -31,6 +35,8 @@ public class HNBRateConversionService implements RateConversionService {
 	@Override
 	public Optional<BigDecimal> toUsd(BigDecimal eur) {
 		
+		logger.trace("Retrieving rate conversion.");
+		
 		String response = restTemplate.getForObject(hnbApiUrl, String.class);
 		
 		JsonNode root;
@@ -38,12 +44,12 @@ public class HNBRateConversionService implements RateConversionService {
 		try {
 			root = objectMapper.readTree(response);
 		} catch (JsonProcessingException e) {
-//			todo log ("Failed to parse exchange rate from HNB.", e);
+			logger.error("Failed to parse exchange rate from HNB.", e);
 			return Optional.empty(); 
 		}
 		
 		if (!root.isArray() || root.isEmpty()) {
-//			todo log ("Invalid response from HNB API: {}", root);
+			logger.error("Invalid response from HNB API: {}", root);
 			return Optional.empty();
 		}
 
