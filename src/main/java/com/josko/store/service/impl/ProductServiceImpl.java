@@ -8,6 +8,8 @@ import com.josko.store.service.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +20,17 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
-	public ProductEntity createProduct(ProductCreateDto dto) {
+	public Long createProduct(ProductCreateDto dto) {
 
 		var entity = mapper.toEntity(dto);
 		
-		return repository.save(entity);
+		return repository.save(entity).getId();
 	}
-	
+
+	@Override
+	public Optional<ProductEntity> getProduct(Long id) {
+		
+		return repository.findById(id);
+	}
+
 }
