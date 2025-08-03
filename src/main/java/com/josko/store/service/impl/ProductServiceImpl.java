@@ -22,12 +22,11 @@ public class ProductServiceImpl implements ProductService {
 	
 	
 	@Override
-	public String createProduct(ProductCreateDto dto) {
+	public void createProduct(ProductCreateDto dto) {
 
 		var entity = mapper.toEntity(dto);
 		
-		return repository.save(entity)
-				.getCode();
+		repository.save(entity);
 	}
 
 	@Override

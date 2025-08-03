@@ -26,12 +26,12 @@ public class ProductsController implements ProductsApi {
 
 		logger.debug("Creating product {}", productCreateDto);
 		
-		var code = service.createProduct(productCreateDto);
+		service.createProduct(productCreateDto);
 
 		var location = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(ProductsController.class)
-						.getProduct(code))
+						.getProduct(productCreateDto.getCode()))
 				.toUri();
 		
 		return ResponseEntity.created(location).build();

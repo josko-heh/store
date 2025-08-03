@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-	String createProduct(ProductCreateDto dto);
+	void createProduct(ProductCreateDto dto);
 	
 	Optional<ProductResponseDto> getProduct(String code);
 
