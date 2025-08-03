@@ -5,6 +5,27 @@ info:
 
 paths:
   /products:
+    get:
+      summary: Get a list of products
+      description: Retrieves a paginated list of products.
+      operationId: getProducts
+      parameters:
+        - in: query
+          name: pageable
+          required: false
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: A paginated list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPageResponse'
+        '204':
+          description: No products found
+        '500':
+          description: Internal server error
     post:
       summary: Create a new product
       description: Creates a new product with price in EUR. Price in USD will be computed automatically.
@@ -108,3 +129,37 @@ components:
         isAvailable:
           type: boolean
           example: true
+    
+    ProductPageResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResponseDto'
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+        first:
+          type: boolean
+        last:
+          type: boolean
+
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          description: Page number (0-based)
+        size:
+          type: integer
+          description: Page size
+        sort:
+          type: string
+          description: Sorting criteria in the format (asc|desc).

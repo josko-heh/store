@@ -138,6 +138,12 @@
 								<useBeanValidation>true</useBeanValidation>
 								<useJakartaEe>true</useJakartaEe>
 							</configOptions>
+							<typeMappings>
+								<Pageable>Pageable=org.springframework.data.domain.Pageable</Pageable>
+							</typeMappings>
+							<importMappings>
+								<Pageable>Pageable=org.springframework.data.domain.Pageable</Pageable>
+							</importMappings>
 						</configuration>
 					</execution>
 				</executions>

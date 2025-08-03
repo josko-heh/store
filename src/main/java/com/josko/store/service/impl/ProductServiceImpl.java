@@ -2,11 +2,12 @@ package com.josko.store.service.impl;
 
 import com.josko.store.jpa.repository.ProductRepository;
 import com.josko.store.presentation.dto.ProductCreateDto;
+import com.josko.store.presentation.dto.ProductPageResponse;
 import com.josko.store.presentation.dto.ProductResponseDto;
 import com.josko.store.service.ProductService;
-import com.josko.store.service.RateConversionService;
 import com.josko.store.service.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +19,6 @@ public class ProductServiceImpl implements ProductService {
 	
 	private final ProductMapper mapper;
 	private final ProductRepository repository;
-	private final RateConversionService conversionService;
 	
 	
 	@Override
@@ -38,18 +38,29 @@ public class ProductServiceImpl implements ProductService {
 			return Optional.empty();
 		}
 		
-		return productOpt.map(mapper::toResponseDto)
-				.map(this::setUsdPrice);
+		return productOpt.map(mapper::toResponseDto);
 	}
 
-	
-	private ProductResponseDto setUsdPrice(ProductResponseDto productDto) {
+	@Override
+	public ProductPageResponse getProducts(Pageable pageable) {
 		
-		var priceUsdOpt = conversionService.toUsd(productDto.getPriceEur());
+		var page = repository.findAll(pageable);
 
-		priceUsdOpt.ifPresent(productDto::setPriceUsd);
-		
-		return productDto;
+		var dtos = page.getContent()
+				.stream()
+				.map(mapper::toResponseDto)
+				.toList();
+
+		var response = new ProductPageResponse();
+		response.setContent(dtos);
+		response.setTotalPages(page.getTotalPages());
+		response.setTotalElements(page.getTotalElements());
+		response.setSize(page.getSize());
+		response.setNumber(page.getNumber());
+		response.setFirst(page.isFirst());
+		response.setLast(page.isLast());
+
+		return response;
 	}
 
 }
