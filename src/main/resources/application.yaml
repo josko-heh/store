@@ -24,6 +24,10 @@ server:
 logging:
   level:
     com.josko.store: DEBUG
+    
+springdoc:
+  swagger-ui:
+    url: openapi.yaml
 
 exchange:
   hnb:
