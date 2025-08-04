@@ -24,8 +24,6 @@ paths:
                 $ref: '#/components/schemas/ProductPageResponse'
         '204':
           description: No products found
-        '400':
-          description: Invalid request
         '500':
           description: Internal server error
     post:
@@ -48,6 +46,10 @@ paths:
                 type: string
         '400':
           description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '500':
           description: Internal server error
 
@@ -70,6 +72,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductResponseDto'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
         '404':
           description: Product not found
         '500':
@@ -162,3 +170,17 @@ components:
       maxLength: 10
       example: "ABC1234567"
       description: Unique product code
+      
+    ValidationError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Validation failed"
+        errors:
+          type: array
+          items:
+            type: string
+          example:
+            - "code: must be 10 characters"
+            - "priceEur: must be greater than 0"
