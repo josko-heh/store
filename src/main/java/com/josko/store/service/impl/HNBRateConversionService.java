@@ -20,9 +20,9 @@ public class HNBRateConversionService implements RateConversionService {
 	private static final Logger logger = LoggerFactory.getLogger(HNBRateConversionService.class);
 
 	private final ObjectMapper objectMapper;
-	private final HNBRatesFetchService fetchService;
+	private final HNBRateFetchService fetchService;
 
-	public HNBRateConversionService(HNBRatesFetchService fetchService) {
+	public HNBRateConversionService(HNBRateFetchService fetchService) {
 		this.fetchService = fetchService;
 		this.objectMapper = new ObjectMapper();
 	}

@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class HNBRatesFetchService {
+public class HNBRateFetchService {
 
 	private static final String RATES_CACHE = "rates";
 	
-	private static final Logger logger = LoggerFactory.getLogger(HNBRatesFetchService.class);
+	private static final Logger logger = LoggerFactory.getLogger(HNBRateFetchService.class);
 
 	private final RestTemplate restTemplate;
 	private final String hnbApiUrl;
 
-	public HNBRatesFetchService(RestTemplate restTemplate, @Value("${exchange.hnb.url}") String hnbApiUrl) {
+	public HNBRateFetchService(RestTemplate restTemplate, @Value("${rates.hnb.url}") String hnbApiUrl) {
 		this.restTemplate = restTemplate;
 		this.hnbApiUrl = hnbApiUrl;
 	}

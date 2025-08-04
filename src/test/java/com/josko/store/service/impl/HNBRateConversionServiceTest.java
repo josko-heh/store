@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 class HNBRateConversionServiceTest {
 
 	@Mock
-	private HNBRatesFetchService fetchService;
+	private HNBRateFetchService fetchService;
 	
 	@InjectMocks
 	private HNBRateConversionService rateConversionService;

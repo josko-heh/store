@@ -30,9 +30,7 @@ springdoc:
     url: openapi.yaml
 
 rates:
-  cacheClear:
-    cron: "0 0 0 * * ?"
-
-exchange:
   hnb:
     url: https://api.hnb.hr/tecajn-eur/v3?valuta=USD
+  cacheClear:
+    cron: "0 0 0 * * ?"
